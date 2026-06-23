@@ -9,11 +9,11 @@ const LeaderboardEntry_1 = require("../models/LeaderboardEntry");
 const Team_1 = require("../models/Team");
 const User_1 = require("../models/User");
 const Workout_1 = require("../models/Workout");
+const database_1 = require("../config/database");
 // Seed command: npm --prefix octofit-tracker/backend run seed
-const MONGO_URI = process.env.MONGO_URI ?? 'mongodb://127.0.0.1:27017/octofit_db';
 async function seed() {
     console.log('Seed the octofit_db database with test data');
-    await mongoose_1.default.connect(MONGO_URI);
+    await (0, database_1.connectDatabase)();
     await Promise.all([
         User_1.User.deleteMany({}),
         Team_1.Team.deleteMany({}),

@@ -20,7 +20,7 @@ function Workouts() {
 
   return (
     <section className="resource-view">
-      <ViewHeader title="Workouts" total={state.total} endpoint={getEndpointUrl('workouts')} />
+      <ViewHeader title="Workouts!" total={state.total} endpoint={getEndpointUrl('workouts')} />
 
       <DataState loading={state.loading} error={state.error} empty={!state.items.length} />
 

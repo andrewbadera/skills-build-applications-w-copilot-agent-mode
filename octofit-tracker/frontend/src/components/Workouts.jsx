@@ -1,3 +1,9 @@
+/**
+ * Workouts Component
+ * Displays a catalog of personalized workout suggestions,
+ * filtered by focus area, difficulty level, and fitness goals.
+ */
+
 import { useEffect, useState } from 'react'
 import { fetchCollection, getEndpointUrl } from '../api.js'
 
@@ -5,16 +11,20 @@ function Workouts() {
   const [state, setState] = useState({ items: [], total: 0, loading: true, error: '' })
 
   useEffect(() => {
+    // Create abort controller to cancel request if component unmounts
     const controller = new AbortController()
 
+    // Fetch workouts from API endpoint
     fetchCollection('workouts', 'workouts', controller.signal)
       .then((data) => setState({ ...data, loading: false, error: '' }))
       .catch((error) => {
+        // Ignore abort errors, only handle actual errors
         if (error.name !== 'AbortError') {
           setState({ items: [], total: 0, loading: false, error: error.message })
         }
       })
 
+    // Cleanup: abort request if component unmounts
     return () => controller.abort()
   }, [])
 

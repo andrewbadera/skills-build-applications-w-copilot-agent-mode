@@ -1,3 +1,9 @@
+/**
+ * Activities Component
+ * Displays a log of all fitness activities tracked in the system,
+ * including type, duration, distance, calories, and timestamps.
+ */
+
 import { useEffect, useState } from 'react'
 import { fetchCollection, getEndpointUrl } from '../api.js'
 
@@ -5,16 +11,20 @@ function Activities() {
   const [state, setState] = useState({ items: [], total: 0, loading: true, error: '' })
 
   useEffect(() => {
+    // Create abort controller to cancel request if component unmounts
     const controller = new AbortController()
 
+    // Fetch activities from API endpoint
     fetchCollection('activities', 'activities', controller.signal)
       .then((data) => setState({ ...data, loading: false, error: '' }))
       .catch((error) => {
+        // Ignore abort errors, only handle actual errors
         if (error.name !== 'AbortError') {
           setState({ items: [], total: 0, loading: false, error: error.message })
         }
       })
 
+    // Cleanup: abort request if component unmounts
     return () => controller.abort()
   }, [])
 

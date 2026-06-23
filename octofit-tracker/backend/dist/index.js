@@ -12,10 +12,10 @@ const users_1 = require("./routes/users");
 const workouts_1 = require("./routes/workouts");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-const PORT = Number(process.env.PORT ?? 8000);
+const PORT = 8000;
 const codespaceName = process.env.CODESPACE_NAME;
 const apiBaseUrl = codespaceName
-    ? `https://${codespaceName}-${PORT}.app.github.dev`
+    ? `https://${codespaceName}-8000.app.github.dev`
     : `http://localhost:${PORT}`;
 app.get('/api/health', (_req, res) => {
     res.json({ apiBaseUrl, status: 'ok' });

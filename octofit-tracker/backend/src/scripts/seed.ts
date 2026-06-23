@@ -5,6 +5,7 @@ import { Team } from '../models/Team';
 import { User } from '../models/User';
 import { Workout } from '../models/Workout';
 
+// Seed command: npm --prefix octofit-tracker/backend run seed
 const MONGO_URI = process.env.MONGO_URI ?? 'mongodb://127.0.0.1:27017/octofit_db';
 
 async function seed() {

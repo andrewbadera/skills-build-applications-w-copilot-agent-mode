@@ -9,6 +9,7 @@ const LeaderboardEntry_1 = require("../models/LeaderboardEntry");
 const Team_1 = require("../models/Team");
 const User_1 = require("../models/User");
 const Workout_1 = require("../models/Workout");
+// Seed command: npm --prefix octofit-tracker/backend run seed
 const MONGO_URI = process.env.MONGO_URI ?? 'mongodb://127.0.0.1:27017/octofit_db';
 async function seed() {
     console.log('Seed the octofit_db database with test data');

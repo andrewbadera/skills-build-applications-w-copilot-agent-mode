@@ -1,16 +1,31 @@
 /**
  * API Configuration for Octofit Tracker
  *
- * ENVIRONMENT VARIABLES:
- * - VITE_CODESPACE_NAME: Your GitHub Codespace name for production API access
- *   This must be set in .env.local for Codespace deployments
- *   Example .env.local content:
- *     VITE_CODESPACE_NAME=my-codespace-abc123
+ * Codespace base URL format:
+ *   https://$CODESPACE_NAME-8000.app.github.dev
  *
- * If VITE_CODESPACE_NAME is unset, the app safely falls back to localhost:8000
+ * Resolution priority:
+ * 1. VITE_CODESPACE_NAME (explicit frontend env var)
+ * 2. CODESPACE_NAME (if exposed to the frontend env)
+ * 3. Derived from the current hostname when running in Codespaces
+ *
+ * If no Codespace name is available, fallback to localhost:8000.
  */
 
-const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const explicitCodespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim()
+const implicitCodespaceName = import.meta.env.CODESPACE_NAME?.trim()
+
+function inferCodespaceNameFromHost() {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  const hostname = window.location.hostname
+  const match = hostname.match(/^(.*)-\d+\.app\.github\.dev$/)
+  return match?.[1]
+}
+
+const codespaceName = explicitCodespaceName || implicitCodespaceName || inferCodespaceNameFromHost()
 
 export const isCodespaceConfigured = Boolean(codespaceName)
 
